@@ -8,7 +8,7 @@ import (
 
 type Logger struct {
 	log *zap.SugaredLogger
-	Std *zap.Logger
+	std *zap.Logger
 }
 
 func (l *Logger) Info(message string, args ...interface{}) {
@@ -24,7 +24,7 @@ func (l *Logger) Fatalf(message string, args ...interface{}) {
 }
 
 func (l *Logger) ToStd() *log.Logger {
-	return zap.NewStdLog(l.Std)
+	return zap.NewStdLog(l.std)
 }
 
 func New() (*Logger, error) {
@@ -34,7 +34,7 @@ func New() (*Logger, error) {
 	}
 	logger := log.Sugar()
 	return &Logger{
-		Std: log,
+		std: log,
 		log: logger,
 	}, nil
 }
