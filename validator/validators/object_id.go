@@ -6,5 +6,9 @@ import (
 )
 
 func ValidateObjectID(fl validator.FieldLevel) bool {
-	return primitive.IsValidObjectID(fl.Field().String())
+	id, ok := fl.Field().Interface().(primitive.ObjectID)
+	if !ok {
+		return false
+	}
+	return primitive.IsValidObjectID(id.Hex())
 }
