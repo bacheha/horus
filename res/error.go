@@ -14,6 +14,7 @@ type Error struct {
 
 // Render implements the chi.Render interface for HTTP payload responses.
 func (e *Error) Render(w http.ResponseWriter, r *http.Request) error {
+	render.Status(r, e.StatusCode)
 	return nil
 }
 
