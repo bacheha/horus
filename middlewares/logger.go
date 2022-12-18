@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/bacheha/horus/logger"
+	"github.com/knuls/horus/logger"
 )
 
 // Logger is a func in which returns a middleware such that req & res entries are logged.

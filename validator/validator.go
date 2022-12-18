@@ -1,11 +1,12 @@
 package validator
 
 import (
-	"github.com/bacheha/horus/validator/validators"
 	val "github.com/go-playground/validator"
+	"github.com/knuls/horus/validator/validators"
 )
 
-var defaultValidators = map[string]val.Func{
+// customValidators is map that stores struct tag => validator function.
+var customValidators = map[string]val.Func{
 	"oid": validators.ValidateObjectID,
 }
 
@@ -25,9 +26,8 @@ func (v *Validator) AddValidator(key string, fn val.Func) error {
 }
 
 func New() (*Validator, error) {
-	v := val.New()
-	validator := &Validator{validate: v}
-	for key, fn := range defaultValidators {
+	validator := &Validator{validate: val.New()}
+	for key, fn := range customValidators {
 		if err := validator.AddValidator(key, fn); err != nil {
 			return nil, err
 		}
