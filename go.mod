@@ -1,4 +1,4 @@
-module github.com/bacheha/horus
+module github.com/knuls/horus
 
 go 1.18
 

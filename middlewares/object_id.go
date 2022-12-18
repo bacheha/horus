@@ -4,9 +4,9 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/bacheha/horus/res"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
+	"github.com/knuls/horus/res"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 

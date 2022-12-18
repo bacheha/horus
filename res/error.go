@@ -9,11 +9,12 @@ import (
 type Error struct {
 	Err        error  `json:"-"`
 	StatusCode int    `json:"statusCode"`
-	ErrorText  string `json:"error,omitempty"`
+	Message    string `json:"message"`
 }
 
 // Render implements the chi.Render interface for HTTP payload responses.
 func (e *Error) Render(w http.ResponseWriter, r *http.Request) error {
+	render.Status(r, e.StatusCode)
 	return nil
 }
 
@@ -22,7 +23,7 @@ func Err(err error, code int) render.Renderer {
 	return &Error{
 		Err:        err,
 		StatusCode: code,
-		ErrorText:  err.Error(),
+		Message:    err.Error(),
 	}
 }
 
