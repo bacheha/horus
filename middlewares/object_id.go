@@ -10,7 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-// ValidateObjectID returns a middleware that checks if the `id` param  is a valid mongo.ObjectID
+// ValidateObjectID returns a middleware that checks if the `id` param is a valid mongo.ObjectID
 func ValidateObjectID(id string) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		fn := func(w http.ResponseWriter, r *http.Request) {
