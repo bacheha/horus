@@ -19,8 +19,8 @@ func (l *Logger) Infof(message string, args ...interface{}) {
 	l.sugar.Infof(message, args...)
 }
 
-func (l *Logger) Fatalf(message string, args ...interface{}) {
-	l.sugar.Fatalf(message, args...)
+func (l *Logger) Error(message string, args ...interface{}) {
+	l.sugar.Error(args...)
 }
 
 func (l *Logger) GetLogger() *zap.Logger {
@@ -31,11 +31,17 @@ func (l *Logger) GetStdLogger() *log.Logger {
 	return zap.NewStdLog(l.log)
 }
 
+func (l *Logger) SetSugar(sugar *zap.SugaredLogger) {
+	l.sugar = sugar
+}
+
 func New() (*Logger, error) {
 	log, err := zap.NewProduction()
 	if err != nil {
 		return nil, err
 	}
-	logger := log.Sugar()
-	return &Logger{sugar: logger, log: log}, nil
+	return &Logger{
+		sugar: log.Sugar(),
+		log:   log,
+	}, nil
 }
