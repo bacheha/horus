@@ -9,10 +9,6 @@ import (
 	"go.uber.org/zap/zaptest/observer"
 )
 
-// func TestLoggerNewFail(t *testing.T) {
-// 	_, err := New()
-// }
-
 func TestLogger(t *testing.T) {
 	logger, err := New()
 	if err != nil {
@@ -25,7 +21,7 @@ func TestLogger(t *testing.T) {
 	sugar := logger.log.Sugar().WithOptions(zap.WrapCore(func(c zapcore.Core) zapcore.Core {
 		return core
 	}))
-	logger.sugar = sugar
+	logger.SetSugar(sugar)
 
 	// write logs
 	logger.Info("some log line", "key", "value")

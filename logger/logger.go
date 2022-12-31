@@ -27,6 +27,10 @@ func (l *Logger) GetStdLogger() *log.Logger {
 	return zap.NewStdLog(l.log)
 }
 
+func (l *Logger) SetSugar(sugar *zap.SugaredLogger) {
+	l.sugar = sugar
+}
+
 func New() (*Logger, error) {
 	log, err := zap.NewProduction()
 	if err != nil {
