@@ -5,7 +5,6 @@ import (
 	"github.com/knuls/horus/validator/validators"
 )
 
-// customValidators is map that stores struct tag => validator function.
 var customValidators = map[string]val.Func{
 	"oid": validators.ValidateObjectID,
 }

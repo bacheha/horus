@@ -26,13 +26,14 @@ func TestLogger(t *testing.T) {
 	// write logs
 	logger.Info("some log line", "key", "value")
 	logger.Infof("some log %s", "line")
+	logger.Error("some error")
 
 	// assert
 	entry := capturedLogs.All()[0]
 	if entry.Level != zap.InfoLevel || entry.Message != "some log line" || entry.ContextMap()["key"] != "value" {
 		t.Fatal("logger should have written info log with message and key/value")
 	}
-	if capturedLogs.Len() != 2 {
+	if capturedLogs.Len() != 3 {
 		t.Fatal("logger should have captured two log entries")
 	}
 	if !isLogger(logger.GetLogger()) {
