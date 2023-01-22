@@ -8,20 +8,22 @@ import (
 )
 
 type test struct {
-	Name primitive.ObjectID `validate:"oid"`
+	Name interface{} `validate:"oid"`
 }
 
-func TestValidateObjectID(t *testing.T) {
+func TestValidateObjectIDError(t *testing.T) {
 	validate := validator.New()
 	validate.RegisterValidation("oid", ValidateObjectID)
-	s := test{}
+	s := test{
+		Name: "name",
+	}
 	err := validate.Struct(s)
-	if err != nil {
-		t.Error(err)
+	if err == nil {
+		t.Error(err, "should fail to convert string to object id")
 	}
 }
 
-func TestFailValidateObjectID(t *testing.T) {
+func TestValidateObjectID(t *testing.T) {
 	validate := validator.New()
 	validate.RegisterValidation("oid", ValidateObjectID)
 	s := test{

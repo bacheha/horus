@@ -27,9 +27,7 @@ func (v *Validator) AddValidator(key string, fn val.Func) error {
 func New() (*Validator, error) {
 	validator := &Validator{validate: val.New()}
 	for key, fn := range customValidators {
-		if err := validator.AddValidator(key, fn); err != nil {
-			return nil, err
-		}
+		validator.AddValidator(key, fn)
 	}
 	return validator, nil
 }

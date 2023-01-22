@@ -1,47 +1,15 @@
 package logger
 
-import (
-	"log"
+import "log"
 
-	"go.uber.org/zap"
-)
+type Logger interface {
+	Info(string, ...interface{})
+	Warn(string, ...interface{})
+	Error(string, ...interface{})
 
-type Logger struct {
-	sugar *zap.SugaredLogger
-	log   *zap.Logger
-}
+	Infof(string, ...interface{})
+	Warnf(string, ...interface{})
+	Errorf(string, ...interface{})
 
-func (l *Logger) Info(message string, args ...interface{}) {
-	l.sugar.Infow(message, args...)
-}
-
-func (l *Logger) Infof(message string, args ...interface{}) {
-	l.sugar.Infof(message, args...)
-}
-
-func (l *Logger) Error(message string, args ...interface{}) {
-	l.sugar.Error(args...)
-}
-
-func (l *Logger) GetLogger() *zap.Logger {
-	return l.log
-}
-
-func (l *Logger) GetStdLogger() *log.Logger {
-	return zap.NewStdLog(l.log)
-}
-
-func (l *Logger) SetSugar(sugar *zap.SugaredLogger) {
-	l.sugar = sugar
-}
-
-func New() (*Logger, error) {
-	log, err := zap.NewProduction()
-	if err != nil {
-		return nil, err
-	}
-	return &Logger{
-		sugar: log.Sugar(),
-		log:   log,
-	}, nil
+	GetStdLogger() *log.Logger
 }

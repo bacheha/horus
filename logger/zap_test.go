@@ -9,12 +9,12 @@ import (
 	"go.uber.org/zap/zaptest/observer"
 )
 
-func TestLogger(t *testing.T) {
-	logger, err := New()
+func TestZapLogger(t *testing.T) {
+	logger, err := NewZapLogger()
 	if err != nil {
 		t.Fatal("logger failed to create")
 	}
-	defer logger.GetLogger().Sync()
+	defer logger.GetZapLogger().Sync()
 
 	// replace logger zap/core with observed zap/core to capture written logs
 	core, capturedLogs := observer.New(zap.InfoLevel)
@@ -25,18 +25,22 @@ func TestLogger(t *testing.T) {
 
 	// write logs
 	logger.Info("some log line", "key", "value")
-	logger.Infof("some log %s", "line")
-	logger.Error("some error")
+	logger.Warn("some log line", "key", "value")
+	logger.Error("some log line", "key", "value")
+	logger.Infof("hello %s", "world")
+	logger.Warnf("hello %s", "world")
+	logger.Errorf("hello %s", "world")
 
 	// assert
-	entry := capturedLogs.All()[0]
+	logs := capturedLogs.All()
+	entry := logs[0]
 	if entry.Level != zap.InfoLevel || entry.Message != "some log line" || entry.ContextMap()["key"] != "value" {
 		t.Fatal("logger should have written info log with message and key/value")
 	}
-	if capturedLogs.Len() != 3 {
+	if capturedLogs.Len() != 6 {
 		t.Fatal("logger should have captured two log entries")
 	}
-	if !isLogger(logger.GetLogger()) {
+	if !isZapLogger(logger.GetZapLogger()) {
 		t.Fatal("logger should be of type zap/logger")
 	}
 	if !isStandardLogger(logger.GetStdLogger()) {
@@ -44,7 +48,7 @@ func TestLogger(t *testing.T) {
 	}
 }
 
-func isLogger(o interface{}) bool {
+func isZapLogger(o interface{}) bool {
 	switch o.(type) {
 	case *zap.Logger:
 		return true
