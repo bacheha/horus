@@ -8,7 +8,7 @@ import (
 )
 
 // Logger is a func in which returns a middleware such that req & res entries are logged.
-func Logger(logger *logger.Logger) func(http.Handler) http.Handler {
+func Logger(logger logger.Logger) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		fn := func(w http.ResponseWriter, r *http.Request) {
 			now := time.Now()

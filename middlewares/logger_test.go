@@ -13,13 +13,13 @@ import (
 
 func TestLogger(t *testing.T) {
 	// logger
-	logger, err := logger.New()
+	logger, err := logger.NewZapLogger()
 	if err != nil {
 		t.Fatal("logger failed to create")
 	}
-	defer logger.GetLogger().Sync()
+	defer logger.GetZapLogger().Sync()
 	core, capturedLogs := observer.New(zap.InfoLevel)
-	sugar := logger.GetLogger().Sugar().WithOptions(zap.WrapCore(func(c zapcore.Core) zapcore.Core {
+	sugar := logger.GetZapLogger().Sugar().WithOptions(zap.WrapCore(func(c zapcore.Core) zapcore.Core {
 		return core
 	}))
 	logger.SetSugar(sugar)
