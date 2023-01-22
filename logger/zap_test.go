@@ -21,7 +21,7 @@ func TestZapLogger(t *testing.T) {
 	sugar := logger.log.Sugar().WithOptions(zap.WrapCore(func(c zapcore.Core) zapcore.Core {
 		return core
 	}))
-	logger.sugar = sugar
+	logger.SetSugar(sugar)
 
 	// write logs
 	logger.Info("some log line", "key", "value")
